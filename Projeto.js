@@ -2,13 +2,15 @@ class Projeto {
     static quantidadeProjetos = 0
 
     #nome
-    #tarefas
+    #tipo
     #integrantes
+    #tarefas
 
-    constructor(nome) {
+    constructor(nome, tipo) {
         this.nome = nome
-        this.#tarefas = []
+        this.tipo = tipo
         this.#integrantes = []
+        this.#tarefas = []
 
         Projeto.quantidadeProjetos++
     }
@@ -18,19 +20,23 @@ class Projeto {
     }
 
     set nome(nome) {
-        if (!nome || nome.trim() === "") {
-            throw new Error("O nome do projeto não pode ser vazio.")
-        }
-
-        this.#nome = nome.trim()
+        this.#nome = nome
     }
 
-    get tarefas() {
-        return this.#tarefas
+    get tipo() {
+        return this.#tipo
+    }
+
+    set tipo(tipo) {
+        this.#tipo = tipo
     }
 
     get integrantes() {
         return this.#integrantes
+    }
+
+    get tarefas() {
+        return this.#tarefas
     }
 
     adicionarIntegrante(pessoa) {
@@ -45,75 +51,74 @@ class Projeto {
         return `Tarefa "${tarefa.titulo}" adicionada ao projeto.`
     }
 
-    atribuirTarefa(numeroTarefa, nomePessoa) {
-        const tarefa = this.#tarefas[numeroTarefa - 1]
+    atribuirTarefa(numero, nomePessoa) {
+
+        const tarefa = this.#tarefas[numero - 1]
 
         if (!tarefa) {
             return "Tarefa não encontrada."
         }
 
         const pessoa = this.#integrantes.find(
-            integrante =>
-                integrante.nome.toLowerCase() === nomePessoa.toLowerCase()
+            integrante => integrante.nome === nomePessoa
         )
 
         if (!pessoa) {
             return "Integrante não encontrado."
         }
 
-        return tarefa.atribuirResponsavel(pessoa)
+        tarefa.atribuir(pessoa)
+
+        return `Tarefa atribuída para ${pessoa.nome}.`
     }
 
     concluirTarefa(numero) {
-        const indice = numero - 1
-        const tarefa = this.#tarefas[indice]
+
+        const tarefa = this.#tarefas[numero - 1]
 
         if (!tarefa) {
             return "Tarefa não encontrada."
         }
 
-        const nomeTarefa = tarefa.titulo
+        tarefa.concluir()
 
-        this.#tarefas.splice(indice, 1)
-
-        return `Tarefa "${nomeTarefa}" concluída e removida da lista.`
+        return `Tarefa "${tarefa.titulo}" concluída.`
     }
 
     listarIntegrantes() {
-        console.log("\n--- INTEGRANTES ---")
 
         if (this.#integrantes.length === 0) {
-            console.log("Nenhum integrante cadastrado.")
+            console.log("\nNenhum integrante cadastrado.")
             return
         }
 
-        this.#integrantes.forEach((integrante, index) => {
+        console.log("\n--- INTEGRANTES ---")
+
+        this.#integrantes.forEach((pessoa, index) => {
             console.log(
-                `${index + 1}. ${integrante.apresentar()}`
+                `${index + 1} - ${pessoa.apresentar()}`
             )
         })
     }
 
     listarTarefas() {
-        console.log("\n--- TAREFAS ---")
 
         if (this.#tarefas.length === 0) {
-            console.log("Nenhuma tarefa cadastrada.")
+            console.log("\nNenhuma tarefa cadastrada.")
             return
         }
 
-        this.#tarefas.forEach((tarefa, index) => {
-            const responsavel =
-                tarefa.responsavel
-                    ? tarefa.responsavel.nome
-                    : "Sem responsável"
+        console.log("\n--- TAREFAS ---")
 
+        this.#tarefas.forEach((tarefa, index) => {
             console.log(
-                `${index + 1}. ${tarefa.titulo} | ` +
-                `Responsável: ${responsavel} | ` +
-                `Status: ${tarefa.consultarStatus()}`
+                `${index + 1} - ${tarefa.apresentar()}`
             )
         })
+    }
+
+    apresentarProjeto() {
+        return `Projeto: ${this.nome} | Tipo: ${this.tipo}`
     }
 
     static consultarQuantidadeProjetos() {

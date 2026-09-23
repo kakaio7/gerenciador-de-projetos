@@ -1,18 +1,18 @@
-const ProjetoTrabalho = require("./ProjetoTrabalho")
-const ProjetoEscolar = require("./ProjetoEscolar")
+const Projeto = require("./Projeto")
 
 class ProjetoFactory {
+
     static criarProjeto(tipo, nome) {
 
         if (tipo === "trabalho") {
-            return new ProjetoTrabalho(nome)
+            return new Projeto(nome, "Trabalho")
         }
 
         if (tipo === "escolar") {
-            return new ProjetoEscolar(nome)
+            return new Projeto(nome, "Projeto Escolar")
         }
 
-        throw new Error("Tipo de projeto inválido.")
+        return null
     }
 }
 

@@ -1,12 +1,12 @@
 class Tarefa {
     #titulo
-    #responsavel
     #concluida
+    #responsavel
 
     constructor(titulo) {
         this.titulo = titulo
-        this.#responsavel = null
         this.#concluida = false
+        this.#responsavel = null
     }
 
     get titulo() {
@@ -14,45 +14,39 @@ class Tarefa {
     }
 
     set titulo(titulo) {
-        if (!titulo || titulo.trim() === "") {
-            throw new Error("O título da tarefa não pode ser vazio.")
-        }
-
-        this.#titulo = titulo.trim()
-    }
-
-    get responsavel() {
-        return this.#responsavel
-    }
-
-    set responsavel(pessoa) {
-        this.#responsavel = pessoa
+        this.#titulo = titulo
     }
 
     get concluida() {
         return this.#concluida
     }
 
-    atribuirResponsavel(pessoa) {
-        this.responsavel = pessoa
+    get responsavel() {
+        return this.#responsavel
+    }
 
-        return `Tarefa "${this.titulo}" atribuída para ${pessoa.nome}.`
+    atribuir(pessoa) {
+        this.#responsavel = pessoa
     }
 
     concluir() {
-        if (this.#concluida) {
-            return `A tarefa "${this.titulo}" já está concluída.`
-        }
-
         this.#concluida = true
-
-        return `Tarefa "${this.titulo}" concluída!`
     }
 
-    consultarStatus() {
-        return this.#concluida
-            ? "Concluída"
-            : "Pendente"
+    apresentar() {
+        let estado = "Pendente"
+
+        if (this.#concluida) {
+            estado = "Concluída"
+        }
+
+        let responsavel = "Sem responsável"
+
+        if (this.#responsavel) {
+            responsavel = this.#responsavel.nome
+        }
+
+        return `Tarefa: ${this.titulo} | Estado: ${estado} | Responsável: ${responsavel}`
     }
 }
 

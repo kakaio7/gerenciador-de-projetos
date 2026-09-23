@@ -10,11 +10,7 @@ class Pessoa {
     }
 
     set nome(nome) {
-        if (!nome || nome.trim() === "") {
-            throw new Error("O nome não pode ser vazio.")
-        }
-
-        this.#nome = nome.trim()
+        this.#nome = nome
     }
 
     apresentar() {
@@ -23,12 +19,20 @@ class Pessoa {
 }
 
 class Lider extends Pessoa {
+    constructor(nome) {
+        super(nome)
+    }
+
     apresentar() {
         return `Líder: ${this.nome}`
     }
 }
 
 class Integrante extends Pessoa {
+    constructor(nome) {
+        super(nome)
+    }
+
     apresentar() {
         return `Integrante: ${this.nome}`
     }
