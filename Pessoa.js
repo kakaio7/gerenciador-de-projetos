@@ -10,7 +10,11 @@ class Pessoa {
     }
 
     set nome(nome) {
-        this.#nome = nome
+        if (typeof nome !== "string" || nome.trim() === "") {
+            throw new Error("O nome da pessoa é obrigatório.")
+        }
+
+        this.#nome = nome.trim()
     }
 
     apresentar() {
@@ -19,20 +23,12 @@ class Pessoa {
 }
 
 class Lider extends Pessoa {
-    constructor(nome) {
-        super(nome)
-    }
-
     apresentar() {
         return `Líder: ${this.nome}`
     }
 }
 
 class Integrante extends Pessoa {
-    constructor(nome) {
-        super(nome)
-    }
-
     apresentar() {
         return `Integrante: ${this.nome}`
     }

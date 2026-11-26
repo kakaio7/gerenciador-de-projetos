@@ -1,3 +1,6 @@
+const { Pessoa } = require("./Pessoa")
+const Tarefa = require("./Tarefa")
+
 class Projeto {
     static quantidadeProjetos = 0
 
@@ -20,7 +23,11 @@ class Projeto {
     }
 
     set nome(nome) {
-        this.#nome = nome
+        if (typeof nome !== "string" || nome.trim() === "") {
+            throw new Error("O nome do projeto é obrigatório.")
+        }
+
+        this.#nome = nome.trim()
     }
 
     get tipo() {
@@ -28,33 +35,47 @@ class Projeto {
     }
 
     set tipo(tipo) {
-        this.#tipo = tipo
+        if (typeof tipo !== "string" || tipo.trim() === "") {
+            throw new Error("O tipo do projeto é obrigatório.")
+        }
+
+        this.#tipo = tipo.trim()
     }
 
     get integrantes() {
-        return this.#integrantes
+        return [...this.#integrantes]
     }
 
     get tarefas() {
-        return this.#tarefas
+        return [...this.#tarefas]
     }
 
     adicionarIntegrante(pessoa) {
+        if (!(pessoa instanceof Pessoa)) {
+            throw new TypeError("O integrante deve ser uma pessoa.")
+        }
+
         this.#integrantes.push(pessoa)
 
         return `${pessoa.nome} foi adicionado ao projeto.`
     }
 
     adicionarTarefa(tarefa) {
+        if (!(tarefa instanceof Tarefa)) {
+            throw new TypeError("A tarefa deve ser uma instância de Tarefa.")
+        }
+
         this.#tarefas.push(tarefa)
 
         return `Tarefa "${tarefa.titulo}" adicionada ao projeto.`
     }
 
     atribuirTarefa(numero, nomePessoa) {
+        if (!Number.isInteger(numero) || numero < 1) {
+            return "Tarefa não encontrada."
+        }
 
         const tarefa = this.#tarefas[numero - 1]
-
         if (!tarefa) {
             return "Tarefa não encontrada."
         }
@@ -73,7 +94,9 @@ class Projeto {
     }
 
     concluirTarefa(numero) {
-
+        if (!Number.isInteger(numero) || numero < 1) {
+            return "Tarefa não encontrada."
+        }
         const tarefa = this.#tarefas[numero - 1]
 
         if (!tarefa) {

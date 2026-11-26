@@ -2,8 +2,7 @@ const Projeto = require("./Projeto")
 
 class ProjetoEscolar extends Projeto {
     constructor(nome) {
-        super(nome)
-        this.tipo = "Escolar"
+        super(nome, "Escolar")
     }
 
     apresentarProjeto() {

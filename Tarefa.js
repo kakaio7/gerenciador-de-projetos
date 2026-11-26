@@ -1,3 +1,5 @@
+const { Pessoa } = require("./Pessoa")
+
 class Tarefa {
     #titulo
     #concluida
@@ -14,7 +16,11 @@ class Tarefa {
     }
 
     set titulo(titulo) {
-        this.#titulo = titulo
+        if (typeof titulo !== "string" || titulo.trim() === "") {
+            throw new Error("O título da tarefa é obrigatório.")
+        }
+
+        this.#titulo = titulo.trim()
     }
 
     get concluida() {
@@ -26,6 +32,10 @@ class Tarefa {
     }
 
     atribuir(pessoa) {
+        if (!(pessoa instanceof Pessoa)) {
+            throw new TypeError("O responsável deve ser uma pessoa.")
+        }
+
         this.#responsavel = pessoa
     }
 

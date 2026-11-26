@@ -1,5 +1,18 @@
 {
+  "name": "gerenciador-de-projetos",
+  "version": "1.0.0",
+  "description": "Gerenciador de projetos em JavaScript com POO e prompt-sync",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "api": "node api/server.js",
+    "api:dev": "node --watch api/server.js",
+    "test": "node --test"
+  },
+  "type": "commonjs",
   "dependencies": {
+    "express": "^5.2.1",
     "prompt-sync": "^4.2.0"
   }
 }
